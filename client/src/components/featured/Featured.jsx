@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import './Featured.scss';
+
 const Featured = () => {
     const [input, setInput] = useState('');
 
