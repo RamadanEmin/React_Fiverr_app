@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import './ProjectCard.scss';
+
 function ProjectCard({ project }) {
     return (
         <Link to="/" className='link'>
