@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import './Register.scss';
 
 function Register() {
+    const [file, setFile] = useState(null);
+    const [user, setUser] = useState({
+        username: '',
+        email: '',
+        password: '',
+        img: '',
+        country: '',
+        isSeller: false,
+        phone: '',
+        desc: ''
+    });
+
+    const handleChange = (e) => {
+        setUser((prev) => {
+            return { ...prev, [e.target.name]: e.target.value }
+        });
+    };
+
+    const handleSeller = (e) => {
+        setUser(prev => {
+            return { ...prev, isSeller: e.target.checked }
+        });
+    };
+
     return (
         <div className="register">
             <form>
@@ -13,22 +38,25 @@ function Register() {
                         name="username"
                         type="text"
                         placeholder="johndoe"
+                        onChange={handleChange}
                     />
                     <label htmlFor="">Email</label>
                     <input
                         name="email"
                         type="email"
                         placeholder="email"
+                        onChange={handleChange}
                     />
                     <label htmlFor="">Password</label>
-                    <input name="password" type="password" />
+                    <input name="password" type="password" onChange={handleChange} />
                     <label htmlFor="">Profile Picture</label>
-                    <input type="file" />
+                    <input type="file" onChange={(e) => setFile(e.target.files[0])} />
                     <label htmlFor="">Country</label>
                     <input
                         name="country"
                         type="text"
                         placeholder="Usa"
+                        onChange={handleChange}
                     />
                     <button type="submit">Register</button>
                 </div>
@@ -37,7 +65,7 @@ function Register() {
                     <div className="toggle">
                         <label htmlFor="">Activate the seller account</label>
                         <label className="switch">
-                            <input type="checkbox" />
+                            <input type="checkbox" onChange={handleSeller} />
                             <span className="slider round"></span>
                         </label>
                     </div>
@@ -46,6 +74,7 @@ function Register() {
                         name="phone"
                         type="text"
                         placeholder="+1 234 567 89"
+                        onChange={handleChange}
                     />
                     <label htmlFor="">Description</label>
                     <textarea
@@ -54,6 +83,7 @@ function Register() {
                         id=""
                         cols="30"
                         rows="10"
+                        onChange={handleChange}
                     ></textarea>
                 </div>
             </form>
