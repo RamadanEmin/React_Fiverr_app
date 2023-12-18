@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import newRequest from '../../utils/newRequest';
 
 import './Navbar.scss';
 
@@ -20,10 +21,18 @@ function Navbar() {
         };
     }, []);
 
-    const currentUser = {
-        id: 1,
-        username: 'John Doe',
-        isSeller: true
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await newRequest.post('/auth/logout');
+            localStorage.setItem('currentUser', null);
+            navigate('/');
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -62,7 +71,7 @@ function Navbar() {
                                     <Link className="link" to="/messages">
                                         Messages
                                     </Link>
-                                    <Link className="link">
+                                    <Link className="link" onClick={handleLogout}>
                                         Logout
                                     </Link>
                                 </div>
