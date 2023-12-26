@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useRef, useState } from 'react';
 
+import './Gigs.scss';
+
 const Gigs = () => {
     const [open, setOpen] = useState(false);
     const [sort, setSort] = useState('sales');
