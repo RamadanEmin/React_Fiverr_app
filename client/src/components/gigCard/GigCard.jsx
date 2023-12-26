@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 
+import './GigCard.scss';
+
 const GigCard = ({ item }) => {
     const { isLoading, error, data } = useQuery({
         queryKey: [item.userId],
