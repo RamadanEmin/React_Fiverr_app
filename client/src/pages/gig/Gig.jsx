@@ -5,6 +5,8 @@ import { Slider } from 'infinite-react-carousel';
 import { useQuery } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest.js';
 
+import './Gig.scss';
+
 const Gig = () => {
     const { id } = useParams();
 
