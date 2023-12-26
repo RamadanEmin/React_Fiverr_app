@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
+import GigCard from '../../components/gigCard/GigCard';
 import newRequest from '../../utils/newRequest';
 
 import './Gigs.scss';
@@ -66,7 +67,7 @@ const Gigs = () => {
                 </div>
                 <div className="cards">
                     {isLoading ? 'Loading...' : error ? 'Something went wrong!' : data.map((gig) => (
-                        <GigCard />
+                        <GigCard key={gig._id} item={gig} />
                     ))}
                 </div>
             </div>
