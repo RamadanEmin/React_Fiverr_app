@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Slider } from 'infinite-react-carousel';
 import { useQuery } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest.js';
+import Reviews from '../../components/reviews/Reviews';
 
 import './Gig.scss';
 
@@ -128,6 +129,7 @@ const Gig = () => {
                                                 </div>
                                             </div>
                                         )}
+                                <Reviews gigId={id} />
                             </div>
                             <div className="right">
                                 <div className="price">
