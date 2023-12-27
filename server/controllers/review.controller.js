@@ -29,3 +29,12 @@ export const createReview = async (req, res, next) => {
         next(err);
     }
 }
+
+export const getReviews = async (req, res, next) => {
+    try {
+        const reviews = await Review.find({ gigId: req.params.gigId });
+        res.status(200).send(reviews);
+    } catch (err) {
+        next(err);
+    }
+};
