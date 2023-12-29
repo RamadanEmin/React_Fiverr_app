@@ -20,6 +20,11 @@ export const gigReducer = (state, action) => {
                 ...state,
                 [action.payload.name]: action.payload.value
             };
+        case 'ADD_FEATURE':
+            return {
+                ...state,
+                features: [...state.features, action.payload]
+            };
 
         default:
             return state;

@@ -11,6 +11,17 @@ const Add = () => {
         });
     };
 
+    const handleFeature = (e) => {
+        e.preventDefault();
+
+        dispatch({
+            type: 'ADD_FEATURE',
+            payload: e.target[0].value
+        });
+
+        e.target[0].value = '';
+    };
+
     return (
         <div className="add">
             <div className="container">
@@ -68,7 +79,7 @@ const Add = () => {
                         <label htmlFor="">Revision Number</label>
                         <input type="number" name="revisionNumber" min={1} onChange={handleChange} />
                         <label htmlFor="">Add Features</label>
-                        <form action="" className="addBtn">
+                        <form action="" className="addBtn" onSubmit={handleFeature}>
                             <input type="text" placeholder="e.g. page design" />
                             <button type="submit">add</button>
                         </form>
