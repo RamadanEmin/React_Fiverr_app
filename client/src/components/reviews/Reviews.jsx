@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 import Review from '../review/Review';
 
+import './Reviews.scss';
+
 const Reviews = ({ gigId }) => {
     const queryClient = useQueryClient();
 
