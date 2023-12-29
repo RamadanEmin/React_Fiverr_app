@@ -1,7 +1,12 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import { INITIAL_STATE, gigReducer } from '../../reducers/gigReducer';
+import upload from '../../utils/upload';
 
 const Add = () => {
+    const [singleFile, setSingleFile] = useState(undefined);
+    const [files, setFiles] = useState([]);
+    const [uploading, setUploading] = useState(false);
+
     const [state, dispatch] = useReducer(gigReducer, INITIAL_STATE);
 
     const handleChange = (e) => {
@@ -20,6 +25,28 @@ const Add = () => {
         });
 
         e.target[0].value = '';
+    };
+
+    const handleUpload = async () => {
+        setUploading(true);
+
+        try {
+            const cover = await upload(singleFile);
+
+            const images = await Promise.all(
+                [...files].map(async (file) => {
+                    const url = await upload(file);
+
+                    return url;
+                })
+            );
+
+            setUploading(false);
+
+            dispatch({ type: 'ADD_IMAGES', payload: { cover, images } });
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -45,11 +72,11 @@ const Add = () => {
                         <div className="images">
                             <div className="imagesInputs">
                                 <label htmlFor="">Cover Image</label>
-                                <input type="file"/>
+                                <input type="file" onChange={(e) => setSingleFile(e.target.files[0])} />
                                 <label htmlFor="">Upload Images</label>
-                                <input type="file" multiple/>
+                                <input type="file" multiple onChange={(e) => setFiles(e.target.files)} />
                             </div>
-                            <button>Upload</button>
+                            <button onClick={handleUpload}>{uploading ? 'uploading' : 'Upload'}</button>
                         </div>
                         <label htmlFor="">Description</label>
                         <textarea
