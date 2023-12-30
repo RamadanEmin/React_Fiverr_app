@@ -2,6 +2,8 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest.js';
 
+import './Orders.scss'
+
 const Orders = () => {
 
     const { isLoading, error, data } = useQuery({
