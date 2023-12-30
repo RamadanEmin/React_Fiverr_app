@@ -1,6 +1,9 @@
 import React, { useReducer, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { INITIAL_STATE, gigReducer } from '../../reducers/gigReducer';
 import upload from '../../utils/upload';
+import newRequest from '../../utils/newRequest';
 
 const Add = () => {
     const [singleFile, setSingleFile] = useState(undefined);
@@ -49,6 +52,26 @@ const Add = () => {
         }
     };
 
+    const navigate = useNavigate();
+
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: (gig) => {
+            return newRequest.post('/gigs', gig);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(['myGigs']);
+        }
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        mutation.mutate(state);
+        navigate('/mygigs');
+    };
+
     return (
         <div className="add">
             <div className="container">
@@ -87,7 +110,7 @@ const Add = () => {
                             cols="0"
                             rows="16"
                         ></textarea>
-                        <button>Create</button>
+                        <button onClick={handleSubmit}>Create</button>
                     </div>
                     <div className="details">
                         <label htmlFor="">Service Title</label>
@@ -113,8 +136,8 @@ const Add = () => {
                         <div className="addedFeatures">
                             {state?.features?.map(f => (
                                 <div className="item" key={f}>
-                                    <button>
-                                        {f}
+                                    <button onClick={() => dispatch({ type: 'REMOVE_FEATURE', payload: f })}>
+                                        {f} <span>X</span>
                                     </button>
                                 </div>
                             ))}
