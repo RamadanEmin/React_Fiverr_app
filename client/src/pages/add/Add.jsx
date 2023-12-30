@@ -5,6 +5,8 @@ import { INITIAL_STATE, gigReducer } from '../../reducers/gigReducer';
 import upload from '../../utils/upload';
 import newRequest from '../../utils/newRequest';
 
+import './Add.scss';
+
 const Add = () => {
     const [singleFile, setSingleFile] = useState(undefined);
     const [files, setFiles] = useState([]);
