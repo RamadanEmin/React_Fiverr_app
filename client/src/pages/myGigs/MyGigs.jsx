@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 
 const MyGigs = () => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const queryClient = useQueryClient();
 
     const { isLoading, error, data } = useQuery({
         queryKey: ['myGigs'],
@@ -13,6 +15,19 @@ const MyGigs = () => {
                 return res.data;
             })
     });
+
+    const mutation = useMutation({
+        mutationFn: (id) => {
+            return newRequest.delete(`/gigs/${id}`);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(['myGigs']);
+        }
+    });
+
+    const handleDelete = (id) => {
+        mutation.mutate(id);
+    };
 
     return (
         <div className='myGigs'>
@@ -55,6 +70,7 @@ const MyGigs = () => {
                                                 className="delete"
                                                 src="./img/delete.png"
                                                 alt=""
+                                                onClick={() => handleDelete(gig._id)}
                                             />
                                         </td>
                                     </tr>
