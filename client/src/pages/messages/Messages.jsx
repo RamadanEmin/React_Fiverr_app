@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 import moment from 'moment';
 
@@ -14,6 +14,21 @@ const Messages = () => {
                 return res.data;
             })
     });
+
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: (id) => {
+            return newRequest.put(`/conversations/${id}`);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(['conversations']);
+        }
+    });
+
+    const handleRead = (id) => {
+        mutation.mutate(id);
+    };
 
     return (
         <div className="messages">
@@ -55,7 +70,7 @@ const Messages = () => {
                                             <td>
                                                 {((currentUser.isSeller && !c.readBySeller) ||
                                                     (!currentUser.isSeller && !c.readByBuyer)) && (
-                                                        <button>
+                                                        <button onClick={() => handleRead(c.id)}>
                                                             Mark as Read
                                                         </button>
                                                     )}
