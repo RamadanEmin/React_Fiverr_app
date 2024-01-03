@@ -4,6 +4,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 import moment from 'moment';
 
+import './Messages.scss';
+
 const Messages = () => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
